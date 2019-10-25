@@ -41,3 +41,7 @@ def index():
             A = request.form.get('A')
             B = request.form.get('B')
             return redirect(url_for('div', A=A, B=B))
+
+# run app
+if __name__ == '__main__':
+    app.run(debug=True)
