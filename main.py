@@ -63,10 +63,20 @@ def mul():
     B = eval(dict['B'])
     result = A*B
     return 'result: %s' % result
+@app.route('/div')
+def div():
+
+    dict = request.args.to_dict()
+    A = eval(dict['A'])
+    B = eval(dict['B'])
+    result = A/B
+    return 'result: %s' % result
+
 
 
 # run app
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
