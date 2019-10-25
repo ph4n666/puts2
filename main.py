@@ -1,5 +1,6 @@
 
 
+
 #!/usr/bin/env python
 from flask import Flask, request, redirect, url_for
 
@@ -44,16 +45,24 @@ def index():
             B = request.form.get('B')
             return redirect(url_for('div', A=A, B=B))
 
- @app.route('/add')
+@app.route('/add')
 def add():
     dict = request.args.to_dict()
     A = eval(dict['A'])
     B = eval(dict['B'])
     result = A+B
     return 'result: %s' % result
+@app.route('/sub')
+def sub():
+    dict = request.args.to_dict()
+    A = eval(dict['A'])
+    B = eval(dict['B'])
+    result = A-B
+    return 'result: %s' % result
 
 
 # run app
 if __name__ == '__main__':
     app.run(debug=True)
+
 
