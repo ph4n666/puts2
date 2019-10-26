@@ -49,6 +49,7 @@ def add():
     B = eval(dict['B'])
     result = A+B
     return 'result: %s' % result
+
 @app.route('/sub')
 def sub():
     dict = request.args.to_dict()
@@ -56,6 +57,7 @@ def sub():
     B = eval(dict['B'])
     result = A-B
     return 'result: %s' % result
+
 @app.route('/mul')
 def mul():
     dict = request.args.to_dict()
@@ -63,20 +65,15 @@ def mul():
     B = eval(dict['B'])
     result = A*B
     return 'result: %s' % result
+
 @app.route('/div')
 def div():
-
     dict = request.args.to_dict()
     A = eval(dict['A'])
     B = eval(dict['B'])
     result = A/B
     return 'result: %s' % result
 
-
-
 # run app
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-
