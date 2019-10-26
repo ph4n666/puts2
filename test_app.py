@@ -1,42 +1,28 @@
-#!/usr/bin/env python
-from flask import Flask, request, redirect, url_for
+import unittest
+from cal import app
 
-# create app
-app = Flask(__name__)
-
-
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    if request.method == 'GET':
-        # show html form
-        return '''
-            <form method="post">
-                A: <input type="text" name="A" />
-                B: <input type="text" name="B" />
-                <p>
-                <input type="submit" name="operator" value="Mul" />
-            </form>
-        '''
-    elif request.method == 'POST':
-        # calculate result
-        a = request.form.get('operator')
-    
-
-        if a == 'Mul':
-            A = request.form.get('A')
-            B = request.form.get('B')
-            return redirect(url_for('mul', A=A, B=B))
+class MyTestCase(unittest.TestCase):
+    def test_index(self):
+        with app.test_client() as a:
+            get_index = a.get('/')
+            self.assertEqual(get_index._status_code, 200)
+           
+            post_index_mul = a.post('/', data={'A':'6', 'B':'5', 'operator': 'Mul'})
+        
+            
+            self.assertEqual(post_index_mul._status_code, 302)
+           
 
 
-@app.route('/mul')
-def mul():
-    dict = request.args.to_dict()
-    A = eval(dict['A'])
-    B = eval(dict['B'])
-    result = A*B
-    return 'result: %s' % result
 
+    def test_mul(self):
+        with app.test_client() as a:
+            get_mul = a.get('/mul', query_string={'A':'6', 'B':'5'})
+            self.assertEqual(get_mul._status_code, 200)
+            result_string = get_mul.get_data(as_text=True)
+            result = eval(result_string.split('result: ')[1])
+            self.assertEqual(result, 30)
 
-# run app
+  
 if __name__ == '__main__':
-    app.run(debug=True)
+    unittest.main()
